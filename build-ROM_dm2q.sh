@@ -1,3 +1,3 @@
+#!/bin/bash
 source buildenv.sh dm2q
-
-unica make_rom
+bash "$SRC_DIR/scripts/make_rom.sh"
