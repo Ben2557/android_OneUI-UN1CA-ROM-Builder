@@ -79,13 +79,13 @@ if $FORCE; then
 fi
 
 if $BUILD_ROM; then
-    NEED_FW_DOWNLOAD=false
-    bash "$SRC_DIR/scripts/extract_fw.sh" &> /dev/null || NEED_FW_DOWNLOAD=true
-    if $NEED_FW_DOWNLOAD; then
-        bash "$SRC_DIR/scripts/download_fw.sh"
-        bash "$SRC_DIR/scripts/extract_fw.sh"
-    fi
-
+    echo -e "- Extracting firmware (using local firmware only, no downloads)..."
+bash "$SRC_DIR/scripts/extract_fw.sh" || {
+    echo "ERROR: Failed to extract firmware."
+    echo "Make sure your firmware files are in: $OUT_DIR/odin/$SOURCE_FIRMWARE"
+    echo "Expected files: AP_*.tar, BL_*.tar, CP_*.tar, CSC_*.tar"
+    exit 1
+    }
     echo -e "- Creating work dir..."
     bash "$SRC_DIR/scripts/internal/create_work_dir.sh"
 
