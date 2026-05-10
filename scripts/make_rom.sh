@@ -80,15 +80,17 @@ fi
 
 if $BUILD_ROM; then
     echo -e "- Creating dummy .downloaded marker..."
-    mkdir -p "$ODIN_DIR/$SOURCE_FIRMWARE"
-    touch "$ODIN_DIR/$SOURCE_FIRMWARE/.downloaded"
+    # Convert slashes to underscores for the firmware path
+    FW_PATH="${SOURCE_FIRMWARE//\//_}"
+    mkdir -p "$ODIN_DIR/$FW_PATH"
+    touch "$ODIN_DIR/$FW_PATH/.downloaded"
     
     echo -e "- Extracting firmware (using local firmware only, no downloads)..."
-bash "$SRC_DIR/scripts/extract_fw.sh" || {
-    echo "ERROR: Failed to extract firmware."
-    echo "Make sure your firmware files are in: $OUT_DIR/odin/$SOURCE_FIRMWARE"
-    echo "Expected files: AP_*.tar, BL_*.tar, CP_*.tar, CSC_*.tar"
-    exit 1
+    bash "$SRC_DIR/scripts/extract_fw.sh" -f || {
+        echo "ERROR: Failed to extract firmware."
+        echo "Make sure your firmware files are in: $ODIN_DIR/$FW_PATH"
+        echo "Expected files: AP_*.tar, BL_*.tar, CP_*.tar, CSC_*.tar"
+        exit 1
     }
     
 #if $BUILD_ROM; then    
