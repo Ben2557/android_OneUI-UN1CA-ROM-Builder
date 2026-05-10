@@ -80,8 +80,8 @@ fi
 
 if $BUILD_ROM; then
     echo -e "- Creating dummy .downloaded marker..."
-    mkdir -p "$ODIN_DIR/${MODEL}_${REGION}"
-    touch "$ODIN_DIR/${MODEL}_${REGION}/.downloaded"
+    mkdir -p "$ODIN_DIR/$SOURCE_FIRMWARE"
+    touch "$ODIN_DIR/$SOURCE_FIRMWARE/.downloaded"
     
     echo -e "- Extracting firmware (using local firmware only, no downloads)..."
 bash "$SRC_DIR/scripts/extract_fw.sh" || {
